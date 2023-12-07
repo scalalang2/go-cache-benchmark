@@ -19,6 +19,9 @@ func main() {
 		cache.NewLRUGroupCache,
 		cache.NewTinyLFU,
 		cache.NewSLRU,
+		cache.NewS4LRU,
+		cache.NewLFU,
+		cache.NewClock,
 	}
 
 	for _, sz := range cacheSizes {

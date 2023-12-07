@@ -1,5 +1,9 @@
+github.com/Code-Hex/go-generics-cache v1.3.1 h1:i8rLwyhoyhaerr7JpjtYjJZUcCbWOdiYO3fZXLiEC4g=
+github.com/Code-Hex/go-generics-cache v1.3.1/go.mod h1:qxcC9kRVrct9rHeiYpFWSoW1vxyillCVzX13KZG8dl4=
 github.com/davecgh/go-spew v1.1.1 h1:vj9j/u1bqnvCEfJOwUhtlOARqs3+rkHYY13jYWTU97c=
 github.com/davecgh/go-spew v1.1.1/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
+github.com/dgryski/go-s4lru v0.0.0-20150401095600-fd9b33c61bfe h1:nIe+Xzc1YhdMy+613G4kl9i37+7CZxDStf4p8EfcPNY=
+github.com/dgryski/go-s4lru v0.0.0-20150401095600-fd9b33c61bfe/go.mod h1:nzRPKBFfFjV/3asnbT6fg+/iEqIcd94Jc+5ZsrAAWy0=
 github.com/dgryski/go-tinylfu v0.0.0-20230408121034-c8e5d79bbb04 h1:KfJuUjcn6CWRMluEAcZb/zqhml0P6rsxAHtSTetvqQ8=
 github.com/dgryski/go-tinylfu v0.0.0-20230408121034-c8e5d79bbb04/go.mod h1:f50PMO4C1x0o341KZt49XtmTpf4LP/JXjxzWuRQEMHw=
 github.com/golang/groupcache v0.0.0-20210331224755-41bb18bfe9da h1:oI5xCqsCo564l8iNU+DwB5epxmsaqB+rhGL0m5jtYqE=

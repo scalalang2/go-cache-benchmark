@@ -15,6 +15,10 @@ func main() {
 	caches := []NewCacheFunc{
 		cache.NewLRU,
 		cache.NewS3FIFO,
+		cache.NewTwoQueue,
+		cache.NewLRUGroupCache,
+		cache.NewTinyLFU,
+		cache.NewSLRU,
 	}
 
 	for _, sz := range cacheSizes {

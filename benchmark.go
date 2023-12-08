@@ -36,7 +36,7 @@ func (b *Benchmark) WriteToConsole() {
 	b.sortResults()
 
 	fmt.Printf("results:\n")
-	fmt.Printf("itemSize=%d, workloads=%d, cacheSize=%.2f, zipf's alpha=%.2f\n\n", b.ItemSize, b.ItemSize*5, b.CacheSizeMultiplier*100, b.ZipfAlpha)
+	fmt.Printf("itemSize=%d, workloads=%d, cacheSize=%.2f%%, zipf's alpha=%.2f\n\n", b.ItemSize, b.ItemSize*5, b.CacheSizeMultiplier*100, b.ZipfAlpha)
 
 	headers := []string{"Cache", "HitRate", "Memory", "Duration", "Hits", "Misses"}
 	table := tablewriter.NewWriter(os.Stdout)

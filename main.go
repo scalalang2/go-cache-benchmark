@@ -6,6 +6,8 @@ import (
 	"time"
 )
 
+const workloadMultiplier = 10
+
 type NewCacheFunc func(size int) cache.Cache
 
 func main() {
@@ -14,6 +16,7 @@ func main() {
 	cacheSizeMultiplier := []float64{0.001, 0.01, 0.1}
 	caches := []NewCacheFunc{
 		cache.NewLRU,
+		cache.NewSieveCache,
 		cache.NewS3FIFO,
 		cache.NewTwoQueue,
 		cache.NewLRUGroupCache,
@@ -57,7 +60,7 @@ func run(newCache NewCacheFunc, itemSize int, cacheSizeMultiplier float64, zipfA
 
 	start := time.Now()
 	bench := func(c cache.Cache, gen *ZipfGenerator) (hits, misses int64) {
-		for i := 0; i < itemSize*5; i++ {
+		for i := 0; i < itemSize*workloadMultiplier; i++ {
 			key := gen.Next()
 			if c.Get(key) {
 				hits++

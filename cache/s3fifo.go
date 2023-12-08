@@ -5,7 +5,7 @@ import (
 )
 
 type S3FIFO struct {
-	v *s3fifo.S3FIFO[string, any]
+	v s3fifo.Cache[string, any]
 }
 
 func NewS3FIFO(size int) Cache {

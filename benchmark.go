@@ -22,10 +22,10 @@ func (br *BenchmarkResult) hitRate() float64 {
 }
 
 type Benchmark struct {
-	CacheSize int
-	NumKey    uint64
-	ZipfAlpha float64
-	Results   []*BenchmarkResult
+	ItemSize            int
+	CacheSizeMultiplier float64
+	ZipfAlpha           float64
+	Results             []*BenchmarkResult
 }
 
 func (b *Benchmark) AddResult(r *BenchmarkResult) {
@@ -36,7 +36,7 @@ func (b *Benchmark) WriteToConsole() {
 	b.sortResults()
 
 	fmt.Printf("results:\n")
-	fmt.Printf("cache=%d, keys=%d, zipf's alpha=%.2f\n\n", b.CacheSize, b.NumKey, b.ZipfAlpha)
+	fmt.Printf("itemSize=%d, workloads=%d, cacheSize=%.2f, zipf's alpha=%.2f\n\n", b.ItemSize, b.ItemSize*5, b.CacheSizeMultiplier*100, b.ZipfAlpha)
 
 	headers := []string{"Cache", "HitRate", "Memory", "Duration", "Hits", "Misses"}
 	table := tablewriter.NewWriter(os.Stdout)

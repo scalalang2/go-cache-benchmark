@@ -10,8 +10,8 @@ type NewCacheFunc func(size int) cache.Cache
 
 func main() {
 	zipfAlphas := []float64{0.99}
-	cacheSizes := []int{1e3, 1e4, 1e5}
-	multiplier := []int{10, 100, 1000}
+	items := []int{1e5 * 5}
+	cacheSizeMultiplier := []float64{0.001, 0.01, 0.1}
 	caches := []NewCacheFunc{
 		cache.NewLRU,
 		cache.NewS3FIFO,
@@ -20,46 +20,44 @@ func main() {
 		cache.NewTinyLFU,
 		cache.NewSLRU,
 		cache.NewS4LRU,
-		cache.NewLFU,
 		cache.NewClock,
 	}
 
-	for _, sz := range cacheSizes {
-		for _, mul := range multiplier {
-			cacheSize := sz
-			numberOfKeys := sz * mul
+	for _, itemSize := range items {
+		for _, multiplier := range cacheSizeMultiplier {
 			for _, alpha := range zipfAlphas {
-				runBenchmark(cacheSize, uint64(numberOfKeys), alpha, caches)
+				runBenchmark(itemSize, multiplier, alpha, caches)
 			}
 		}
 	}
 }
 
-func runBenchmark(cacheSize int, numberOfKeys uint64, zipfAlpha float64, caches []NewCacheFunc) {
+func runBenchmark(itemSize int, cacheMultiplier float64, zipfAlpha float64, caches []NewCacheFunc) {
 	b := &Benchmark{
-		CacheSize: cacheSize,
-		NumKey:    numberOfKeys,
-		ZipfAlpha: zipfAlpha,
-		Results:   make([]*BenchmarkResult, 0),
+		ItemSize:            itemSize,
+		CacheSizeMultiplier: cacheMultiplier,
+		ZipfAlpha:           zipfAlpha,
+		Results:             make([]*BenchmarkResult, 0),
 	}
 
 	for _, newCache := range caches {
-		b.Results = append(b.Results, run(newCache, cacheSize, numberOfKeys, zipfAlpha))
+		b.Results = append(b.Results, run(newCache, itemSize, cacheMultiplier, zipfAlpha))
 	}
 
 	b.WriteToConsole()
 }
 
-func run(newCache NewCacheFunc, cacheSize int, numberOfKeys uint64, zipfAlpha float64) *BenchmarkResult {
-	gen := NewZipfGenerator(numberOfKeys, zipfAlpha)
+func run(newCache NewCacheFunc, itemSize int, cacheSizeMultiplier float64, zipfAlpha float64) *BenchmarkResult {
+	gen := NewZipfGenerator(uint64(itemSize), zipfAlpha)
 
 	alloc1 := memAlloc()
+	cacheSize := int(float64(itemSize) * cacheSizeMultiplier)
 	c := newCache(cacheSize)
 	defer c.Close()
 
 	start := time.Now()
 	bench := func(c cache.Cache, gen *ZipfGenerator) (hits, misses int64) {
-		for i := 0; i < 1e6; i++ {
+		for i := 0; i < itemSize*5; i++ {
 			key := gen.Next()
 			if c.Get(key) {
 				hits++

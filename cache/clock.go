@@ -1,9 +1,13 @@
 package cache
 
-import "github.com/Code-Hex/go-generics-cache/policy/clock"
+import (
+	"github.com/Code-Hex/go-generics-cache/policy/clock"
+	"sync"
+)
 
 type Clock struct {
-	v *clock.Cache[string, string]
+	lock sync.Mutex
+	v    *clock.Cache[string, string]
 }
 
 func NewClock(size int) Cache {
@@ -17,11 +21,17 @@ func (c *Clock) Name() string {
 }
 
 func (c *Clock) Get(key string) bool {
+	c.lock.Lock()
+	defer c.lock.Unlock()
+
 	_, ok := c.v.Get(key)
 	return ok
 }
 
 func (c *Clock) Set(key string) {
+	c.lock.Lock()
+	defer c.lock.Unlock()
+
 	c.v.Set(key, key)
 }
 

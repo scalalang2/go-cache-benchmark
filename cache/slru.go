@@ -1,8 +1,12 @@
 package cache
 
-import "github.com/golang/groupcache/lru"
+import (
+	"github.com/golang/groupcache/lru"
+	"sync"
+)
 
 type SLRU struct {
+	lock  sync.Mutex
 	once  *lru.Cache
 	twice *lru.Cache
 }
@@ -19,6 +23,9 @@ func (s *SLRU) Name() string {
 }
 
 func (s *SLRU) Get(key string) bool {
+	s.lock.Lock()
+	defer s.lock.Unlock()
+
 	val, ok := s.once.Get(key)
 	if ok {
 		s.once.Remove(key)
@@ -31,6 +38,9 @@ func (s *SLRU) Get(key string) bool {
 }
 
 func (s *SLRU) Set(key string) {
+	s.lock.Lock()
+	defer s.lock.Unlock()
+
 	s.once.Add(key, key)
 }
 

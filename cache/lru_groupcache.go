@@ -1,9 +1,13 @@
 package cache
 
-import "github.com/golang/groupcache/lru"
+import (
+	"github.com/golang/groupcache/lru"
+	"sync"
+)
 
 type LRUGroupCache struct {
-	v *lru.Cache
+	lock sync.Mutex
+	v    *lru.Cache
 }
 
 func NewLRUGroupCache(size int) Cache {
@@ -17,11 +21,15 @@ func (c *LRUGroupCache) Name() string {
 }
 
 func (c *LRUGroupCache) Get(key string) bool {
+	c.lock.Lock()
+	defer c.lock.Unlock()
 	_, ok := c.v.Get(key)
 	return ok
 }
 
 func (c *LRUGroupCache) Set(key string) {
+	c.lock.Lock()
+	defer c.lock.Unlock()
 	c.v.Add(key, key)
 }
 

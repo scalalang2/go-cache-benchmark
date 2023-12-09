@@ -11,7 +11,7 @@ type ZipfGenerator struct {
 }
 
 func NewZipfGenerator(size uint64, theta float64) *ZipfGenerator {
-	src := rand.NewSource(19931203)
+	src := rand.NewSource(19970531)
 	r := rand.New(src)
 	gen, err := zipf.NewZipfGenerator(r, 0, size, theta, false)
 

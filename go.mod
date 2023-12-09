@@ -9,7 +9,7 @@ require (
 	github.com/golang/groupcache v0.0.0-20210331224755-41bb18bfe9da
 	github.com/hashicorp/golang-lru/v2 v2.0.7
 	github.com/olekukonko/tablewriter v0.0.5
-	github.com/scalalang2/golang-fifo/v2 v2.0.0-20231208071808-703915577a5e
+	github.com/scalalang2/golang-fifo/v2 v2.0.0-20231209093546-c49c1b340cdf
 )
 
 require github.com/mattn/go-runewidth v0.0.9 // indirect

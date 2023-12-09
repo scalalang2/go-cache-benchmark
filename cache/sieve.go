@@ -1,6 +1,6 @@
 package cache
 
-import fifo "github.com/scalalang2/golang-fifo/v2"
+import "github.com/scalalang2/golang-fifo/v2"
 
 type Sieve struct {
 	v fifo.Cache[string, any]

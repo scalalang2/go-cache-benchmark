@@ -2,6 +2,8 @@
 
 This benchmark compares cache eviction algorithms using Zipfian distribution.
 
+This referred to [this code](https://github.com/vmihailenco/go-cache-benchmark) a lot.
+
 ## Cache libraries used
 | Name           | Ref                                           |
 |----------------|-----------------------------------------------|

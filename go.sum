@@ -16,8 +16,8 @@ github.com/olekukonko/tablewriter v0.0.5 h1:P2Ga83D34wi1o9J6Wh1mRuqd4mF/x/lgBS7N
 github.com/olekukonko/tablewriter v0.0.5/go.mod h1:hPp6KlRPjbx+hW8ykQs1w3UBbZlj6HuIJcUGPhkA7kY=
 github.com/pmezard/go-difflib v1.0.0 h1:4DBwDE0NGyQoBHbLQYPwSUPoCMWR5BEzIk/f1lZbAQM=
 github.com/pmezard/go-difflib v1.0.0/go.mod h1:iKH77koFhYxTK1pcRnkKkqfTogsbg7gZNVY4sRDYZ/4=
-github.com/scalalang2/golang-fifo/v2 v2.0.0-20231209093546-c49c1b340cdf h1:WInnVrDKLC6Y61wvw7Us0a8RhYUPklMY7eWDEvcZIZI=
-github.com/scalalang2/golang-fifo/v2 v2.0.0-20231209093546-c49c1b340cdf/go.mod h1:jeBedlQwYKE23iGgABC9ndjjP4ZD5JeFKVtBNP/aNRU=
+github.com/scalalang2/golang-fifo/v2 v2.0.0-20231212010006-12adbf9639c5 h1:07C2GwwU1wO2mGi/fRd5N4BeKFRYljn2elBSXRN6pZE=
+github.com/scalalang2/golang-fifo/v2 v2.0.0-20231212010006-12adbf9639c5/go.mod h1:jeBedlQwYKE23iGgABC9ndjjP4ZD5JeFKVtBNP/aNRU=
 github.com/stretchr/testify v1.8.4 h1:CcVxjf3Q8PM0mHUKJCdn+eZZtm5yQwehR5yeSVQQcUk=
 github.com/stretchr/testify v1.8.4/go.mod h1:sz/lmYIOXD/1dqDmKjjqLyZ2RngseejIcXlSw2iwfAo=
 gopkg.in/yaml.v3 v3.0.1 h1:fxVm/GzAzEWqLHuvctI91KS9hhNmmWOoWu0XTYJS7CA=

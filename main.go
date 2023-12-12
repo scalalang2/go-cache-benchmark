@@ -19,7 +19,7 @@ func main() {
 	caches := []NewCacheFunc{
 		cache.NewLRU,
 		cache.NewSieve,
-		//cache.NewS3FIFO,
+		cache.NewS3FIFO,
 		cache.NewTwoQueue,
 		cache.NewLRUGroupCache,
 		cache.NewTinyLFU,

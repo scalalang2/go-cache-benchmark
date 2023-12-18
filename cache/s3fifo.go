@@ -1,11 +1,12 @@
 package cache
 
 import (
-	s3fifo "github.com/scalalang2/golang-fifo/v2"
+	fifo "github.com/scalalang2/golang-fifo"
+	s3fifo "github.com/scalalang2/golang-fifo/s3fifo"
 )
 
 type S3FIFO struct {
-	v s3fifo.Cache[string, any]
+	v fifo.Cache[string, any]
 }
 
 func NewS3FIFO(size int) Cache {

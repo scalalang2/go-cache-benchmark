@@ -2,7 +2,7 @@ package cache
 
 import (
 	fifo "github.com/scalalang2/golang-fifo"
-	s3fifo "github.com/scalalang2/golang-fifo/s3fifo"
+	"github.com/scalalang2/golang-fifo/s3fifo"
 )
 
 type S3FIFO struct {
@@ -10,7 +10,7 @@ type S3FIFO struct {
 }
 
 func NewS3FIFO(size int) Cache {
-	v := s3fifo.NewS3FIFO[string, any](size)
+	v := s3fifo.New[string, any](size)
 	return &S3FIFO{v}
 }
 

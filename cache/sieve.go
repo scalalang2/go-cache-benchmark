@@ -10,7 +10,7 @@ type Sieve struct {
 }
 
 func NewSieve(size int) Cache {
-	return &Sieve{sieve.NewSieve[string, any](size)}
+	return &Sieve{sieve.New[string, any](size)}
 }
 
 func (s *Sieve) Name() string {

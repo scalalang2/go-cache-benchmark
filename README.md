@@ -5,15 +5,17 @@ This benchmark compares cache eviction algorithms using Zipfian distribution.
 This referred to [this code](https://github.com/vmihailenco/go-cache-benchmark) a lot.
 
 ## Cache libraries used
-| Name           | Ref                                           |
-|----------------|-----------------------------------------------|
-| s3-fifo        | https://github.com/scalalang2/golang-fifo     |
-| clock          | https://github.com/Code-Hex/go-generics-cache |
-| lru-hashicorp  | https://github.com/hashicorp/golang-lru       |
-| lru-groupcache | https://github.com/golang/groupcache/lru      |
-| two-queue      | https://github.com/hashicorp/golang-lru       |
-| s4-lru         | https://github.com/dgryski/go-s4lru           |
-| tinylfu        | https://github.com/dgryski/go-tinylfu         |
+| Name            | Ref                                           |
+|-----------------|-----------------------------------------------|
+| sieve           | https://github.com/scalalang2/golang-fifo     |
+| s3-fifo         | https://github.com/scalalang2/golang-fifo     |
+| s3-fifo (otter) | https://github.com/maypok86/otter             |
+| clock           | https://github.com/Code-Hex/go-generics-cache |
+| lru-hashicorp   | https://github.com/hashicorp/golang-lru       |
+| lru-groupcache  | https://github.com/golang/groupcache/lru      |
+| two-queue       | https://github.com/hashicorp/golang-lru       |
+| s4-lru          | https://github.com/dgryski/go-s4lru           |
+| tinylfu         | https://github.com/dgryski/go-tinylfu         |
 
 ## Benchmark result
 - The **golang-fifo** algorithm shows the best cache efficiency (= low miss ratio) relative to other LRU-based algorithm
@@ -29,16 +31,18 @@ $ go run *.go
 results:
 itemSize=500000, workloads=2500000, cacheSize=0.10%, zipf's alpha=0.99  
 
-      CACHE      | HITRATE | MEMORY  |  DURATION  |  HITS   | MISSES   
------------------+---------+---------+------------+---------+----------
-  s3-fifo        | 48.85%  | 0.20MiB | 857.0013ms | 1221268 | 1278732  
-  tinylfu        | 47.36%  | 0.10MiB | 830.4299ms | 1183944 | 1316056  
-  slru           | 46.39%  | 0.11MiB | 930.5827ms | 1159650 | 1340350  
-  s4lru          | 46.09%  | 0.11MiB | 703.051ms  | 1152255 | 1347745  
-  two-queue      | 45.48%  | 0.16MiB | 1.2742908s | 1136954 | 1363046  
-  clock          | 37.35%  | 0.10MiB | 846.2553ms |  933784 | 1566216  
-  lru-hashicorp  | 36.60%  | 0.13MiB | 927.4414ms |  915083 | 1584917  
-  lru-groupcache | 36.60%  | 0.11MiB | 973.254ms  |  915083 | 1584917  
+      CACHE      | HITRATE | MEMORY  |   QPS   |  HITS   | MISSES   
+-----------------+---------+---------+---------+---------+----------
+  sieve          | 47.41%  | 0.11MiB | 2756340 | 3555962 | 3944038  
+  tinylfu        | 47.37%  | 0.11MiB | 2003205 | 3552824 | 3947176  
+  s3-fifo        | 47.17%  | 0.21MiB | 1835985 | 3537405 | 3962595  
+  slru           | 46.49%  | 0.11MiB | 1877817 | 3486475 | 4013525  
+  s4lru          | 46.13%  | 0.12MiB | 2351834 | 3459613 | 4040387  
+  two-queue      | 45.49%  | 0.18MiB | 1821715 | 3411796 | 4088204  
+  otter          | 45.02%  | 0.52MiB | 3810976 | 3376497 | 4123503  
+  clock          | 37.34%  | 0.10MiB | 1936483 | 2800279 | 4699721  
+  lru-groupcache | 36.57%  | 0.12MiB | 1843658 | 2742635 | 4757365  
+  lru-hashicorp  | 36.56%  | 0.08MiB | 2006957 | 2741779 | 4758221
 
 
 results:

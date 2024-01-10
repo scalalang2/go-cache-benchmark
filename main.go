@@ -1,10 +1,11 @@
 package main
 
 import (
-	"go-cache-benchmark/cache"
 	"runtime"
 	"sync"
 	"time"
+
+	"go-cache-benchmark/cache"
 )
 
 const workloadMultiplier = 15
@@ -59,7 +60,20 @@ func runBenchmark(itemSize int, cacheMultiplier float64, zipfAlpha float64, cach
 func run(newCache NewCacheFunc, itemSize int, cacheSizeMultiplier float64, zipfAlpha float64, concurrency int) *BenchmarkResult {
 	gen := NewZipfGenerator(uint64(itemSize), zipfAlpha)
 
+	total := itemSize * workloadMultiplier
+	each := total / concurrency
+
 	alloc1 := memAlloc()
+
+	// create keys in advance to not taint the QPS
+	keys := make([][]string, concurrency)
+	for i := 0; i < concurrency; i++ {
+		keys[i] = make([]string, 0, each)
+		for j := 0; j < each; j++ {
+			keys[i] = append(keys[i], gen.Next())
+		}
+	}
+
 	cacheSize := int(float64(itemSize) * cacheSizeMultiplier)
 	c := newCache(cacheSize)
 	defer c.Close()
@@ -67,8 +81,6 @@ func run(newCache NewCacheFunc, itemSize int, cacheSizeMultiplier float64, zipfA
 	start := time.Now()
 	bench := func(c cache.Cache, gen *ZipfGenerator) (int64, int64) {
 		var wg sync.WaitGroup
-		total := itemSize * workloadMultiplier
-		each := total / concurrency
 		hits := make([]int64, concurrency)
 		misses := make([]int64, concurrency)
 
@@ -76,7 +88,7 @@ func run(newCache NewCacheFunc, itemSize int, cacheSizeMultiplier float64, zipfA
 			wg.Add(1)
 			go func(k int) {
 				for j := 0; j < each; j++ {
-					key := gen.Next()
+					key := keys[k][j]
 					if c.Get(key) {
 						hits[k]++
 					} else {
@@ -99,6 +111,7 @@ func run(newCache NewCacheFunc, itemSize int, cacheSizeMultiplier float64, zipfA
 
 	hits, misses := bench(c, gen)
 	elapsed := time.Since(start)
+	keys = nil
 	alloc2 := memAlloc()
 
 	return &BenchmarkResult{

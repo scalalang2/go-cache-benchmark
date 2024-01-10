@@ -27,6 +27,8 @@ func main() {
 		cache.NewS4LRU,
 		cache.NewClock,
 		cache.NewOtter,
+		cache.NewFreeLRUSynced,
+		cache.NewFreeLRUSharded,
 	}
 
 	for _, itemSize := range items {

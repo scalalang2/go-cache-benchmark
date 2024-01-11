@@ -16,7 +16,7 @@ func main() {
 	zipfAlphas := []float64{0.99}
 	items := []int{1e5 * 5}
 	concurrencies := []int{1, 2, 4, 8, 16}
-	cacheSizeMultiplier := []float64{0.0006, 0.001, 0.01, 0.1}
+	cacheSizeMultiplier := []float64{0.001, 0.01, 0.1}
 	caches := []NewCacheFunc{
 		cache.NewLRU,
 		cache.NewSieve,

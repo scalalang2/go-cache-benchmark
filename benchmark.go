@@ -1,13 +1,28 @@
 package main
 
 import (
-	"fmt"
-	"os"
 	"sort"
 	"time"
 
-	"github.com/olekukonko/tablewriter"
+	"github.com/go-echarts/go-echarts/v2/charts"
+	"github.com/go-echarts/go-echarts/v2/opts"
 )
+
+type BenchmarkWriter struct {
+	chart *charts.Bar
+}
+
+func NewBenchmarkWriter(title string, xAxis []string) *BenchmarkWriter {
+	c := charts.NewBar()
+	c.SetGlobalOptions(charts.WithTitleOpts(opts.Title{
+		Title: title,
+	}))
+	c = c.SetXAxis(xAxis)
+
+	return &BenchmarkWriter{
+		chart: c,
+	}
+}
 
 type BenchmarkResult struct {
 	CacheName string
@@ -22,9 +37,7 @@ func (br *BenchmarkResult) hitRate() float64 {
 }
 
 type Benchmark struct {
-	ItemSize            int
 	CacheSizeMultiplier float64
-	ZipfAlpha           float64
 	Concurrency         int
 	Results             []*BenchmarkResult
 }
@@ -35,37 +48,6 @@ func (b *Benchmark) AddResult(r *BenchmarkResult) {
 
 func (b *Benchmark) WriteToConsole() {
 	b.sortResults()
-
-	workloads := b.ItemSize * workloadMultiplier
-
-	fmt.Printf("results:\n")
-	fmt.Printf("itemSize=%d, workloads=%d, cacheSize=%.2f%%, zipf's alpha=%.2f, concurrency=%d\n\n",
-		b.ItemSize,
-		workloads,
-		b.CacheSizeMultiplier*100,
-		b.ZipfAlpha,
-		b.Concurrency)
-
-	headers := []string{"Cache", "HitRate", "Memory", "QPS", "Hits", "Misses"}
-	table := tablewriter.NewWriter(os.Stdout)
-	for _, ret := range b.Results {
-		qps := float64(ret.Hits+ret.Misses) / float64(ret.Duration.Milliseconds())
-		qps = qps * 1000
-
-		table.Append([]string{
-			ret.CacheName,
-			fmt.Sprintf("%.2f%%", ret.hitRate()),
-			fmt.Sprintf("%.2fMiB", float64(ret.Bytes)/1000/1000),
-			fmt.Sprintf("%.f", qps),
-			fmt.Sprintf("%d", ret.Hits),
-			fmt.Sprintf("%d", ret.Misses),
-		})
-	}
-	table.SetHeader(headers)
-	table.SetBorder(false)
-	table.Render()
-
-	fmt.Printf("\n\n")
 }
 
 func (b *Benchmark) Clean() {

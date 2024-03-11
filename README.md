@@ -1,8 +1,8 @@
 # Cache benchmark for Go
 
-This benchmark compares cache eviction algorithms using Zipfian distribution.
+This benchmark compares cache algorithms under Zipfian distribution.
 
-This referred to [this code](https://github.com/vmihailenco/go-cache-benchmark) a lot.
+This evaluates several cache libraries with key factors, including hit rate, memory usage, queries per seconds and scalability.
 
 ## Cache libraries used
 | Name            | Ref                                           |

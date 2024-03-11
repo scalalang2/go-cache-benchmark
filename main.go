@@ -8,13 +8,15 @@ import (
 	"go-cache-benchmark/cache"
 )
 
-const workloadMultiplier = 15
+// totalItems is the number of items used in the benchmark
+const totalItems = 500000
+
+// zipfAlpha is the skewness of the zipfian distribution
+const zipfAlpha = 0.99
 
 type NewCacheFunc func(size int) cache.Cache
 
 func main() {
-	zipfAlphas := []float64{0.99}
-	items := []int{1e5 * 5}
 	concurrencies := []int{1, 2, 4, 8, 16}
 	cacheSizeMultiplier := []float64{0.001, 0.01, 0.1}
 	caches := []NewCacheFunc{
@@ -32,37 +34,31 @@ func main() {
 		cache.NewFreeLRUSharded,
 	}
 
-	for _, itemSize := range items {
-		for _, multiplier := range cacheSizeMultiplier {
-			for _, curr := range concurrencies {
-				for _, alpha := range zipfAlphas {
-					runBenchmark(itemSize, multiplier, alpha, caches, curr)
-				}
-			}
+	for _, multiplier := range cacheSizeMultiplier {
+		for _, curr := range concurrencies {
+			runBenchmark(multiplier, caches, curr)
 		}
 	}
 }
 
-func runBenchmark(itemSize int, cacheMultiplier float64, zipfAlpha float64, caches []NewCacheFunc, concurrency int) {
+func runBenchmark(cacheMultiplier float64, caches []NewCacheFunc, concurrency int) {
 	b := &Benchmark{
-		ItemSize:            itemSize,
 		CacheSizeMultiplier: cacheMultiplier,
-		ZipfAlpha:           zipfAlpha,
 		Concurrency:         concurrency,
 		Results:             make([]*BenchmarkResult, 0),
 	}
 
 	for _, newCache := range caches {
-		b.Results = append(b.Results, run(newCache, itemSize, cacheMultiplier, zipfAlpha, concurrency))
+		b.Results = append(b.Results, run(newCache, cacheMultiplier, concurrency))
 	}
 
 	b.WriteToConsole()
 }
 
-func run(newCache NewCacheFunc, itemSize int, cacheSizeMultiplier float64, zipfAlpha float64, concurrency int) *BenchmarkResult {
-	gen := NewZipfGenerator(uint64(itemSize), zipfAlpha)
+func run(newCache NewCacheFunc, cacheSizeMultiplier float64, concurrency int) *BenchmarkResult {
+	gen := NewZipfGenerator(uint64(totalItems), zipfAlpha)
 
-	total := itemSize * workloadMultiplier
+	total := totalItems
 	each := total / concurrency
 
 	alloc1 := memAlloc()
@@ -76,7 +72,7 @@ func run(newCache NewCacheFunc, itemSize int, cacheSizeMultiplier float64, zipfA
 		}
 	}
 
-	cacheSize := int(float64(itemSize) * cacheSizeMultiplier)
+	cacheSize := int(float64(totalItems) * cacheSizeMultiplier)
 	c := newCache(cacheSize)
 	defer c.Close()
 

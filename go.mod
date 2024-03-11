@@ -1,6 +1,6 @@
 module go-cache-benchmark
 
-go 1.21
+go 1.22
 
 require (
 	github.com/Code-Hex/go-generics-cache v1.3.1

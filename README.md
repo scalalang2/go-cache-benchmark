@@ -17,14 +17,6 @@ This referred to [this code](https://github.com/vmihailenco/go-cache-benchmark) 
 | s4-lru          | https://github.com/dgryski/go-s4lru           |
 | tinylfu         | https://github.com/dgryski/go-tinylfu         |
 
-## Benchmark result
-- The **golang-fifo** algorithm shows the best cache efficiency (= low miss ratio) relative to other LRU-based algorithm
-when cache size is much smaller than the total size of item set.
-  - golang-fifo is a implementation of modern cache eviction algorithm introduced in following papers.
-  - [FIFO queues are all you need for cache eviction | ACM SOSP'23](https://dl.acm.org/doi/10.1145/3600006.3613147)
-  - [SIEVE is Simpler than LRU: an Efficient Turn-Key Eviction Algorithm for Web Caches | USENIX NSDI'24](https://junchengyang.com/publication/nsdi24-SIEVE.pdf)
-- As the cache size becomes closer to the overall item size, the efficiency difference between cache algorithms decreases.
-
 ```shell
 $ go run *.go
 

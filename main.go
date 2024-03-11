@@ -18,16 +18,16 @@ func main() {
 	concurrencies := []int{1, 2, 4, 8, 16}
 	cacheSizeMultiplier := []float64{0.001, 0.01, 0.1}
 	caches := []NewCacheFunc{
-		cache.NewLRU,
 		cache.NewSieve,
 		cache.NewS3FIFO,
+		cache.NewOtter,
+		cache.NewLRU,
 		cache.NewTwoQueue,
 		cache.NewLRUGroupCache,
 		cache.NewTinyLFU,
 		cache.NewSLRU,
 		cache.NewS4LRU,
 		cache.NewClock,
-		cache.NewOtter,
 		cache.NewFreeLRUSynced,
 		cache.NewFreeLRUSharded,
 	}

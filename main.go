@@ -1,7 +1,6 @@
 package main
 
 import (
-	"runtime"
 	"sync"
 	"time"
 
@@ -65,8 +64,6 @@ func run(newCache NewCacheFunc, itemSize int, cacheSizeMultiplier float64, zipfA
 	total := itemSize * workloadMultiplier
 	each := total / concurrency
 
-	alloc1 := memAlloc()
-
 	// create keys in advance to not taint the QPS
 	keys := make([][]string, concurrency)
 	for i := 0; i < concurrency; i++ {
@@ -114,20 +111,11 @@ func run(newCache NewCacheFunc, itemSize int, cacheSizeMultiplier float64, zipfA
 	hits, misses := bench(c, gen)
 	elapsed := time.Since(start)
 	keys = nil
-	alloc2 := memAlloc()
 
 	return &BenchmarkResult{
 		CacheName: c.Name(),
 		Duration:  elapsed,
 		Hits:      hits,
 		Misses:    misses,
-		Bytes:     int64(alloc2) - int64(alloc1),
 	}
-}
-
-func memAlloc() uint64 {
-	runtime.GC()
-	var m runtime.MemStats
-	runtime.ReadMemStats(&m)
-	return m.Alloc
 }

@@ -11,6 +11,7 @@ require (
 	github.com/golang/groupcache v0.0.0-20210331224755-41bb18bfe9da
 	github.com/hashicorp/golang-lru/v2 v2.0.7
 	github.com/maypok86/otter v0.0.0-20231222143008-a9479c80c78a
+	github.com/samber/lo v1.39.0
 	github.com/scalalang2/golang-fifo v0.1.3
 	github.com/zeebo/xxh3 v1.0.2
 
@@ -21,4 +22,5 @@ require (
 	github.com/dolthub/swiss v0.2.1 // indirect
 	github.com/gammazero/deque v0.2.1 // indirect
 	github.com/klauspost/cpuid/v2 v2.0.9 // indirect
+	golang.org/x/exp v0.0.0-20220328175248-053ad81199eb // indirect
 )

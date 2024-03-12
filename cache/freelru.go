@@ -15,7 +15,7 @@ func hash(s string) uint32 {
 
 func NewFreeLRUSynced(size int) Cache {
 	// The extra factor makes SyncedLRU use the same amount of memory as S3-FIFO does.
-	v, _ := lru.NewSynced[string, string](uint32(size*5), hash)
+	v, _ := lru.NewSynced[string, string](uint32(size), hash)
 	return &FreeLRUSynced{v}
 }
 
@@ -42,7 +42,7 @@ type FreeLRUSharded struct {
 
 func NewFreeLRUSharded(size int) Cache {
 	// The extra factor makes ShardedLRU use the same amount of memory as S3-FIFO does.
-	v, _ := lru.NewShardedWithSize[string, string](128, uint32(size*4), uint32(size*4), hash)
+	v, _ := lru.NewShardedWithSize[string, string](128, uint32(size), uint32(size), hash)
 	return &FreeLRUSharded{v}
 }
 

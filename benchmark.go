@@ -14,7 +14,6 @@ type BenchmarkResult struct {
 	Duration  time.Duration
 	Hits      int64
 	Misses    int64
-	Bytes     int64
 }
 
 func (br *BenchmarkResult) hitRate() float64 {
@@ -38,7 +37,6 @@ func (b *Benchmark) WriteToConsole() {
 
 	workloads := b.ItemSize * workloadMultiplier
 
-	fmt.Printf("results:\n")
 	fmt.Printf("itemSize=%d, workloads=%d, cacheSize=%.2f%%, zipf's alpha=%.2f, concurrency=%d\n\n",
 		b.ItemSize,
 		workloads,
@@ -46,7 +44,7 @@ func (b *Benchmark) WriteToConsole() {
 		b.ZipfAlpha,
 		b.Concurrency)
 
-	headers := []string{"Cache", "HitRate", "Memory", "QPS", "Hits", "Misses"}
+	headers := []string{"Cache", "HitRate", "QPS", "Hits", "Misses"}
 	table := tablewriter.NewWriter(os.Stdout)
 	for _, ret := range b.Results {
 		qps := float64(ret.Hits+ret.Misses) / float64(ret.Duration.Milliseconds())
@@ -55,7 +53,6 @@ func (b *Benchmark) WriteToConsole() {
 		table.Append([]string{
 			ret.CacheName,
 			fmt.Sprintf("%.2f%%", ret.hitRate()),
-			fmt.Sprintf("%.2fMiB", float64(ret.Bytes)/1000/1000),
 			fmt.Sprintf("%.f", qps),
 			fmt.Sprintf("%d", ret.Hits),
 			fmt.Sprintf("%d", ret.Misses),

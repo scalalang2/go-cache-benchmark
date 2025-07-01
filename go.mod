@@ -1,6 +1,6 @@
 module go-cache-benchmark
 
-go 1.22
+go 1.24
 
 require (
 	github.com/Code-Hex/go-generics-cache v1.3.1
@@ -11,9 +11,8 @@ require (
 	github.com/hashicorp/golang-lru/v2 v2.0.7
 	github.com/maypok86/otter v0.0.0-20231222143008-a9479c80c78a
 	github.com/olekukonko/tablewriter v0.0.5
-	github.com/scalalang2/golang-fifo v0.1.3
+	github.com/scalalang2/golang-fifo v1.2.0
 	github.com/zeebo/xxh3 v1.0.2
-
 )
 
 require (
